@@ -1,0 +1,80 @@
+{# Load the tag library #}
+{% load bootstrap3 %}
+
+{# Load CSS and JavaScript #}
+{% bootstrap_css %}
+{% bootstrap_javascript %}
+
+{# Display django.contrib.messages as Bootstrap alerts #}
+{% bootstrap_messages %}
+
+{% block bootstrap3_content %}
+<head>
+    <title>Water Log</title>
+    <meta author="Anthony Carlos Rodriguez Mendoza">
+    <link rel="icon" type="image/png" href="/static/water_records/waterlogo.png">
+    <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+      ga('create', 'UA-71297414-1', 'auto');
+      ga('send', 'pageview');
+    </script>
+</head>
+
+<body>
+    <style>
+        .h1 {
+            font-size: 74px;
+
+
+        }
+    </style>
+
+    <nav class="navbar navbar-default" style="border-bottom: 0px;">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <a href="{% url 'index' %}">
+              <img src="/static/water_records/seed_cg.png" height="50" width="120" class="img-responsive"
+                      />
+          </a>
+        </div>
+      </div>
+    </nav>
+    <div class="container-fluid" style="text-align:center; color:#fff; background-color:#0E4C92; padding: 5% 0 5% 0">
+        <h1 style="font-size: 94px; font-weight:lighter">Runoff Water Facilities</h1>
+    </div>
+    <div class="container-fluid" style="margin-top: 5%">
+        {% if water_categories_list %}
+        <div class="row" style="text-align:center">
+                {% for category in water_categories_list %}
+                <div class="col-lg-3 col-md-4 col-sm-6">
+                    <div class="panel panel-primary" style="background-color:#eef6fd; box-shadow:2px 2px 2px #808080">
+                        <div class="panel-heading" style="font-size: 34px;">{{category.facility_name}}</div>
+                        <div class="panel-body" style="text-align:left">
+                            <ol>
+                                <li>Date last updated: {{category.last_updated}}</li>
+                                <li>Current Volume:{{category.volume}}</li>
+                                <li>Current Volume Units: {{category.volume_units}}</li>
+                                <li>Sources: {{category.sources}}</li>
+                                <li>Source URLs: {{category.sources_urls}}</li>
+                            </ol>
+                        <button type="button" class="btn btn-primary">View Facilities</button>
+                        </div>
+
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+
+        {% else %}
+            <div class="row">No categories at this time.</div>
+        {% endif %}
+    </div>
+
+ {% bootstrap_messages %}
+
+{% endblock %}
+</body>

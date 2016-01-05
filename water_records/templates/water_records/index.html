@@ -1,0 +1,83 @@
+{# Load the tag library #}
+{% load bootstrap3 %}
+
+{# Load CSS and JavaScript #}
+{% bootstrap_css %}
+{% bootstrap_javascript %}
+
+{# Display django.contrib.messages as Bootstrap alerts #}
+{% bootstrap_messages %}
+
+{% block bootstrap3_content %}
+<head>
+    <title>WaterLog</title>
+    <meta author="Anthony Carlos Rodriguez Mendoza">
+    <link rel="icon" type="image/png" href="/static/water_records/waterlogo.png">
+    <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+      ga('create', 'UA-71297414-1', 'auto');
+      ga('send', 'pageview');
+    </script>
+</head>
+
+<body style="height: 100%">
+    <style>
+        .h1 {
+            font-size: 74px;
+
+
+        }
+    </style>
+    <div class="container-fluid" style="text-align:center; color:#fff; background-color:#0E4C92;">
+        <h1 style="font-size: 94px; margin-top: 5%; font-weight:lighter">Welcome to WaterLog.</h1>
+        <h3 style="font-style:oblique; margin-bottom: 5%; font-weight:lighter">Bringing you real-time water values in Los Angeles County.</h3>
+    </div>
+    <div class="container-fluid" style="margin-top: 5%; margin-bottom: 5%">
+        {% if facility_types %}
+        <div class="row" style="text-align:center">
+                {% for facility in facility_types %}
+                <div class="col-lg-3 col-md-4 col-sm-6">
+                    <div class="panel panel-primary" style="background-color:#eef6fd; box-shadow:2px 2px 2px #808080">
+                        <div class="panel-heading" style="font-size: 34px;">{{facility.facility_type}}</div>
+                        <div class="panel-body" style="text-align:center">
+                            <ui class="list-group">
+                                <li class="list-group-item">Date last updated: {{facility.last_updated}}</li>
+                                <li class="list-group-item">Current Volume:{{facility.volume}}</li>
+                                <li class="list-group-item">Current Volume Units: {{facility.volume_units}}</li>
+                                <li class="list-group-item">Sources: {{facility.date_created}}</li>
+                            </ui>
+                            {% if category.category_name == 'Ground Water' %}
+                            <a href="{% url 'groundwater' %}"><button type="button" class="btn btn-primary" style="margin-top:3%">View Facilities</button></a>
+                            {% elif category.category_name == 'Recycled Water' %}
+                            <a href="{% url 'recycledwater' %}"><button type="button" class="btn btn-primary" style="margin-top:3%">View Facilities</button></a>
+                            {% elif category.category_name == 'Runoff Water' %}
+                            <a href="{% url 'runoffwater' %}"><button type="button" class="btn btn-primary" style="margin-top:3%">View Facilities</button></a>
+                            {% elif category.category_name == 'Imported Water' %}
+                            <a href="{% url 'runoffwater' %}"><button type="button" class="btn btn-primary" style="margin-top:3%">View Facilities</button></a>
+                            {% else %}
+                            <a href="{% url 'index' %}"><button type="button" class="btn btn-primary" style="margin-top:3%">View Facilities</button></a>
+                            {% endif %}                        </div>
+
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+
+        {% else %}
+            <div class="row">No categories at this time.</div>
+        {% endif %}
+    </div>
+
+
+   <div class="footer navbar-fixed-bottom" style="border-top: 1.5px solid gray; width: 100%; background-color: #eee;">
+        <p class="pull-right" style="padding-right:3%; padding-top: 20px; font-size:18px; color: #000">created by: Anthony Carlos Rodriguez Mendoza 2015 ·</p>
+      </div>
+
+ {% bootstrap_messages %}
+
+{% endblock %}
+</body>
